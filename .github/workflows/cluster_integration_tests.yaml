@@ -33,7 +33,7 @@ jobs:
       #     ./hack/ci/add-job-ip.sh
       - name: Test Capact release
         run: |
-          helm test capact --namespace=capact-system --timeout="10m" --logs
+          helm test capact --namespace=capact-system --timeout="30m" --logs
       # - name: Network cleanup
       #   # The `always()` is needed to always run the step, even if previous ones failed. From docs: "If your if expression does not contain any of the status functions it will automatically result with success()."
       #   # Without that it will results in: `Evaluating: (success() && (steps.network-enable.outcome == 'success'))`
