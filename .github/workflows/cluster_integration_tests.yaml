@@ -65,7 +65,7 @@ jobs:
 
     steps:
       - name: Slack Notification
-        if: ${{ always() && needs.integration-tests-dev.result != 'success' || needs.integration-tests-stage.result != 'success' }}
+        if: ${{ needs.integration-tests-dev.result == 'success' || needs.integration-tests-stage.result == 'success' }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_USERNAME: Capact CI Notifier
