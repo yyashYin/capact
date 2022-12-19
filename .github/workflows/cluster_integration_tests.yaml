@@ -16,13 +16,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Authenticate with Google Cloud platform
-        uses: google-github-actions/auth@v0.5.0
+        uses: google-github-actions/auth@v1
         with:
           create_credentials_file: true
           cleanup_credentials: true
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
       - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.6.0
+        uses: google-github-actions/setup-gcloud@v1
       - name: Get cluster credentials
         run: |
           gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project sm-cluster-dev
@@ -43,13 +43,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Authenticate with Google Cloud platform
-        uses: google-github-actions/auth@v0.5.0
+        uses: google-github-actions/auth@v1
         with:
           create_credentials_file: true
           cleanup_credentials: true
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
       - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.6.0
+        uses: google-github-actions/setup-gcloud@v1
       - name: Get cluster credentials
         run: |
           gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project sm-cluster-dev
@@ -70,13 +70,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Authenticate with Google Cloud platform
-        uses: google-github-actions/auth@v0.5.0
+        uses: google-github-actions/auth@v1
         with:
           create_credentials_file: true
           cleanup_credentials: true
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
       - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.6.0
+        uses: google-github-actions/setup-gcloud@v1
       - name: Get cluster credentials
         run: |
           gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project sm-cluster-prod
@@ -97,13 +97,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Authenticate with Google Cloud platform
-        uses: google-github-actions/auth@v0.5.0
+        uses: google-github-actions/auth@v1
         with:
           create_credentials_file: true
           cleanup_credentials: true
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
       - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.6.0
+        uses: google-github-actions/setup-gcloud@v1
       - name: Get cluster credentials
         run: |
           gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project sm-cluster-dev
@@ -124,13 +124,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Authenticate with Google Cloud platform
-        uses: google-github-actions/auth@v0.5.0
+        uses: google-github-actions/auth@v1
         with:
           create_credentials_file: true
           cleanup_credentials: true
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
       - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.6.0
+        uses: google-github-actions/setup-gcloud@v1
       - name: Get cluster credentials
         run: |
           gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project sm-cluster-dev
