@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  integration-tests:
-    name: Cluster integration tests
+  integration-tests-dev:
+    name: Cluster integration tests for dev
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -27,22 +27,35 @@ jobs:
           gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project sm-cluster-dev
         env:
           CLUSTER_NAME: 'sm-dev'
-      # - name: Network enable
-      #   id: network-enable
-      #   run: |
-      #     ./hack/ci/add-job-ip.sh
       - name: Test Capact release
         run: |
           helm test capact --namespace=capact-system --timeout="30m" --logs
-      # - name: Network cleanup
-      #   # The `always()` is needed to always run the step, even if previous ones failed. From docs: "If your if expression does not contain any of the status functions it will automatically result with success()."
-      #   # Without that it will results in: `Evaluating: (success() && (steps.network-enable.outcome == 'success'))`
-      #   # source: https://docs.github.com/en/free-pro-team@latest/actions/reference/context-and-expression-syntax-for-github-actions#job-status-check-functions
-      #   if: ${{ always() && steps.network-enable.outcome == 'success' }}
-      #   env:
-      #     IP_ADDED_JOB: "${{ steps.network-enable.outputs.JOB_IP }}"
-      #   run: |
-      #     ./hack/ci/remove-job-ip.sh
+
+  integration-tests-stage:
+    name: Cluster integration tests for stage
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Authenticate with Google Cloud platform
+        uses: google-github-actions/auth@v0.5.0
+        with:
+          create_credentials_file: true
+          cleanup_credentials: true
+          credentials_json: ${{ secrets.CAPACT_GKE_CREDS }}
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.6.0
+      - name: Get cluster credentials
+        run: |
+          gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project sm-cluster-dev
+        env:
+          CLUSTER_NAME: 'sm-stage'
+      - name: Test Capact release
+        run: |
+          helm test capact --namespace=capact-system --timeout="30m" --logs
 
   slackNotification:
     name: Slack Notification
