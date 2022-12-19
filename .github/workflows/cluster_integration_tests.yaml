@@ -1,7 +1,8 @@
 name: Periodic cluster integration tests
 on:
   schedule:
-  - cron: '0 */4 * * *'
+  - cron: '0 22 * * *'
+  workflow_dispatch:
 
 jobs:
   integration-tests-dev:
@@ -55,94 +56,16 @@ jobs:
       - name: Test Capact release
         run: |
           helm test capact --namespace=capact-system --timeout="30m" --logs
-    
-  integration-tests-kone:
-    name: Cluster integration tests for kone
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Authenticate with Google Cloud platform
-        uses: google-github-actions/auth@v0.5.0
-        with:
-          create_credentials_file: true
-          cleanup_credentials: true
-          credentials_json: ${{ secrets.CAPACT_GKE_CREDS_KONE_PROD }}
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.6.0
-      - name: Get cluster credentials
-        run: |
-          gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project sm-cluster-dev
-        env:
-          CLUSTER_NAME: 'sm-kone'
-      - name: Test Capact release
-        run: |
-          helm test capact --namespace=capact-system --timeout="30m" --logs
-  
-  integration-tests-ibmlz:
-    name: Cluster integration tests for ibmlz
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Authenticate with Google Cloud platform
-        uses: google-github-actions/auth@v0.5.0
-        with:
-          create_credentials_file: true
-          cleanup_credentials: true
-          credentials_json: ${{ secrets.CAPACT_GKE_CREDS }}
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.6.0
-      - name: Get cluster credentials
-        run: |
-          gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project sm-cluster-dev
-        env:
-          CLUSTER_NAME: 'sm-ibmlz'
-      - name: Test Capact release
-        run: |
-          helm test capact --namespace=capact-system --timeout="30m" --logs
-    
-  integration-tests-neste-dev:
-    name: Cluster integration tests for neste dev
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Authenticate with Google Cloud platform
-        uses: google-github-actions/auth@v0.5.0
-        with:
-          create_credentials_file: true
-          cleanup_credentials: true
-          credentials_json: ${{ secrets.CAPACT_GKE_CREDS }}
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.6.0
-      - name: Get cluster credentials
-        run: |
-          gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project sm-cluster-dev
-        env:
-          CLUSTER_NAME: 'sm-neste-dev'
-      - name: Test Capact release
-        run: |
-          helm test capact --namespace=capact-system --timeout="30m" --logs
 
   slackNotification:
     name: Slack Notification
     runs-on: ubuntu-latest
-    needs: [ integration-tests-dev, integration-tests-stage, integration-tests-kone, integration-tests-ibmlz, integration-tests-neste-dev ]
+    needs: [ integration-tests-dev, integration-tests-stage ]
     if: always()
 
     steps:
       - name: Slack Notification
-        if: ${{ needs.integration-tests-dev.result != 'success' || needs.integration-tests-stage.result != 'success' || needs.integration-tests-kone.result != 'success' || needs.integration-tests-ibmlz.result != 'success' || needs.integration-tests-neste-dev.result != 'success' }}
+        if: ${{ needs.integration-tests-dev.result != 'success' || needs.integration-tests-stage.result != 'success' }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_USERNAME: SuperMaestro CI Notifier
