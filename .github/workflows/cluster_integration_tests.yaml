@@ -24,7 +24,9 @@ jobs:
         uses: google-github-actions/setup-gcloud@v0.6.0
       - name: Get cluster credentials
         run: |
-          gcloud container clusters get-credentials ${{env.CLUSTER}} --zone europe-west1-b --project sm-cluster-dev
+          gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project sm-cluster-dev
+        env:
+          CLUSTER_NAME: 'sm-dev'
       # - name: Network enable
       #   id: network-enable
       #   run: |
