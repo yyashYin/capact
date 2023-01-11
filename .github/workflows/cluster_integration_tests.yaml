@@ -24,7 +24,7 @@ jobs:
         name: 'Login Kubernetes Cluster'
         uses: 'google-github-actions/get-gke-credentials@v1'
         with:
-          cluster_name: '${{ secrets.CLUSTER_NAME }}'
+          cluster_name: 'sm-cluster-dev'
           location: 'europe-west1-b'
       - uses: azure/setup-helm@v3
         name: 'Set up helm'
@@ -61,7 +61,7 @@ jobs:
         name: 'Login Kubernetes Cluster'
         uses: 'google-github-actions/get-gke-credentials@v1'
         with:
-          cluster_name: '${{ secrets.CLUSTER_NAME }}'
+          cluster_name: 'sm-cluster-stage'
           location: 'europe-west1-b'
       - uses: azure/setup-helm@v3
         name: 'Set up helm'
@@ -98,7 +98,7 @@ jobs:
         name: 'Login Kubernetes Cluster'
         uses: 'google-github-actions/get-gke-credentials@v1'
         with:
-          cluster_name: '${{ secrets.CLUSTER_NAME }}'
+          cluster_name: 'sm-cluster-kone'
           location: 'europe-west1-b'
       - uses: azure/setup-helm@v3
         name: 'Set up helm'
