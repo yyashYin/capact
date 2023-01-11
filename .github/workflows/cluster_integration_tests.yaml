@@ -1,8 +1,8 @@
 name: Periodic cluster integration tests
 on:
-  schedule:
-  - cron: '0 22 * * *'
   workflow_dispatch:
+  schedule:
+  - cron: '0 23 * * *'
 
 jobs:
   integration-tests-dev:
@@ -15,22 +15,32 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Authenticate with Google Cloud platform
-        uses: google-github-actions/auth@v1
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
         with:
-          create_credentials_file: true
-          cleanup_credentials: true
-          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
-      - name: Get cluster credentials
-        run: |
-          gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project sm-cluster-dev
-        env:
-          CLUSTER_NAME: 'sm-dev'
-      - name: Test Capact release
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+      - id: 'get-credentials'
+        name: 'Login Kubernetes Cluster'
+        uses: 'google-github-actions/get-gke-credentials@v1'
+        with:
+          cluster_name: '${{ secrets.CLUSTER_NAME }}'
+          location: 'europe-west1-b'
+      - uses: azure/setup-helm@v3
+        name: 'Set up helm'
+        with:
+          version: 'v3.10.2' # default is latest (stable)
+        id: install-helm
+      - uses: azure/setup-kubectl@v3
+        name: 'Set up kubectl'
+        with:
+          version: 'v1.23.8'
+        id: install-kubectl
+      - name: Run e2e test
         run: |
           helm test capact --namespace=capact-system --timeout="30m" --logs
+        env:
+          WORKSPACE: '.'
 
   integration-tests-stage:
     name: Cluster integration tests for stage
@@ -42,22 +52,32 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Authenticate with Google Cloud platform
-        uses: google-github-actions/auth@v1
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
         with:
-          create_credentials_file: true
-          cleanup_credentials: true
-          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
-      - name: Get cluster credentials
-        run: |
-          gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project sm-cluster-dev
-        env:
-          CLUSTER_NAME: 'sm-stage'
-      - name: Test Capact release
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+      - id: 'get-credentials'
+        name: 'Login Kubernetes Cluster'
+        uses: 'google-github-actions/get-gke-credentials@v1'
+        with:
+          cluster_name: '${{ secrets.CLUSTER_NAME }}'
+          location: 'europe-west1-b'
+      - uses: azure/setup-helm@v3
+        name: 'Set up helm'
+        with:
+          version: 'v3.10.2' # default is latest (stable)
+        id: install-helm
+      - uses: azure/setup-kubectl@v3
+        name: 'Set up kubectl'
+        with:
+          version: 'v1.23.8'
+        id: install-kubectl
+      - name: Run e2e test
         run: |
           helm test capact --namespace=capact-system --timeout="30m" --logs
+        env:
+          WORKSPACE: '.'
     
   integration-tests-kone:
     name: Cluster integration tests for kone
@@ -69,22 +89,32 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Authenticate with Google Cloud platform
-        uses: google-github-actions/auth@v1
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
         with:
-          create_credentials_file: true
-          cleanup_credentials: true
-          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
-      - name: Get cluster credentials
-        run: |
-          gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project sm-cluster-prod
-        env:
-          CLUSTER_NAME: 'sm-kone'
-      - name: Test Capact release
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+      - id: 'get-credentials'
+        name: 'Login Kubernetes Cluster'
+        uses: 'google-github-actions/get-gke-credentials@v1'
+        with:
+          cluster_name: '${{ secrets.CLUSTER_NAME }}'
+          location: 'europe-west1-b'
+      - uses: azure/setup-helm@v3
+        name: 'Set up helm'
+        with:
+          version: 'v3.10.2' # default is latest (stable)
+        id: install-helm
+      - uses: azure/setup-kubectl@v3
+        name: 'Set up kubectl'
+        with:
+          version: 'v1.23.8'
+        id: install-kubectl
+      - name: Run e2e test
         run: |
           helm test capact --namespace=capact-system --timeout="30m" --logs
+        env:
+          WORKSPACE: '.'
   
   integration-tests-ibmlz:
     name: Cluster integration tests for ibmlz
@@ -96,22 +126,32 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Authenticate with Google Cloud platform
-        uses: google-github-actions/auth@v1
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
         with:
-          create_credentials_file: true
-          cleanup_credentials: true
-          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
-      - name: Get cluster credentials
-        run: |
-          gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project sm-cluster-dev
-        env:
-          CLUSTER_NAME: 'sm-ibmlz'
-      - name: Test Capact release
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+      - id: 'get-credentials'
+        name: 'Login Kubernetes Cluster'
+        uses: 'google-github-actions/get-gke-credentials@v1'
+        with:
+          cluster_name: '${{ secrets.CLUSTER_NAME }}'
+          location: 'europe-west1-b'
+      - uses: azure/setup-helm@v3
+        name: 'Set up helm'
+        with:
+          version: 'v3.10.2' # default is latest (stable)
+        id: install-helm
+      - uses: azure/setup-kubectl@v3
+        name: 'Set up kubectl'
+        with:
+          version: 'v1.23.8'
+        id: install-kubectl
+      - name: Run e2e test
         run: |
           helm test capact --namespace=capact-system --timeout="30m" --logs
+        env:
+          WORKSPACE: '.'
     
   integration-tests-neste-dev:
     name: Cluster integration tests for neste dev
@@ -123,22 +163,32 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Authenticate with Google Cloud platform
-        uses: google-github-actions/auth@v1
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
         with:
-          create_credentials_file: true
-          cleanup_credentials: true
-          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
-      - name: Get cluster credentials
-        run: |
-          gcloud container clusters get-credentials ${CLUSTER_NAME} --zone europe-west1-b --project sm-cluster-dev
-        env:
-          CLUSTER_NAME: 'sm-neste-dev'
-      - name: Test Capact release
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+      - id: 'get-credentials'
+        name: 'Login Kubernetes Cluster'
+        uses: 'google-github-actions/get-gke-credentials@v1'
+        with:
+          cluster_name: '${{ secrets.CLUSTER_NAME }}'
+          location: 'europe-west1-b'
+      - uses: azure/setup-helm@v3
+        name: 'Set up helm'
+        with:
+          version: 'v3.10.2' # default is latest (stable)
+        id: install-helm
+      - uses: azure/setup-kubectl@v3
+        name: 'Set up kubectl'
+        with:
+          version: 'v1.23.8'
+        id: install-kubectl
+      - name: Run e2e test
         run: |
           helm test capact --namespace=capact-system --timeout="30m" --logs
+        env:
+          WORKSPACE: '.'
 
   slackNotification:
     name: Slack Notification
