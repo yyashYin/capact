@@ -26,16 +26,6 @@ jobs:
         with:
           cluster_name: 'sm-dev'
           location: 'europe-west1-b'
-      - uses: azure/setup-helm@v3
-        name: 'Set up helm'
-        with:
-          version: 'v3.10.2' # default is latest (stable)
-        id: install-helm
-      - uses: azure/setup-kubectl@v3
-        name: 'Set up kubectl'
-        with:
-          version: 'v1.23.8'
-        id: install-kubectl
       - name: Run e2e test
         run: |
           helm test capact --namespace=capact-system --timeout="30m" --logs
@@ -63,16 +53,6 @@ jobs:
         with:
           cluster_name: 'sm-stage'
           location: 'europe-west1-b'
-      - uses: azure/setup-helm@v3
-        name: 'Set up helm'
-        with:
-          version: 'v3.10.2' # default is latest (stable)
-        id: install-helm
-      - uses: azure/setup-kubectl@v3
-        name: 'Set up kubectl'
-        with:
-          version: 'v1.23.8'
-        id: install-kubectl
       - name: Run e2e test
         run: |
           helm test capact --namespace=capact-system --timeout="30m" --logs
@@ -137,16 +117,6 @@ jobs:
         with:
           cluster_name: '${{ secrets.CLUSTER_NAME }}'
           location: 'europe-west1-b'
-      - uses: azure/setup-helm@v3
-        name: 'Set up helm'
-        with:
-          version: 'v3.10.2' # default is latest (stable)
-        id: install-helm
-      - uses: azure/setup-kubectl@v3
-        name: 'Set up kubectl'
-        with:
-          version: 'v1.23.8'
-        id: install-kubectl
       - name: Run e2e test
         run: |
           helm test capact --namespace=capact-system --timeout="30m" --logs
