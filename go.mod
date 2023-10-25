@@ -29,7 +29,7 @@ require (
 	github.com/gitchander/permutation v0.0.0-20210517125447-a5d73722e1b1
 	github.com/go-logr/logr v0.4.0
 	github.com/go-logr/zapr v0.4.0
-	github.com/google/uuid v1.2.0
+	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
 	github.com/hashicorp/go-getter v1.5.11
 	github.com/hashicorp/go-multierror v1.1.1
@@ -39,11 +39,11 @@ require (
 	github.com/hashicorp/terraform-config-inspect v0.0.0-20210625153042-09f34846faab
 	github.com/hokaccha/go-prettyjson v0.0.0-20210113012101-fb4e108d2519
 	github.com/iancoleman/orderedmap v0.0.0-20190318233801-ac98e3ecb4b0
-	github.com/iancoleman/strcase v0.1.2
+	github.com/iancoleman/strcase v0.2.0
 	github.com/jetstack/cert-manager v1.4.4
 	github.com/machinebox/graphql v0.2.2
 	github.com/matryer/is v1.4.0 // indirect
-	github.com/mattn/go-isatty v0.0.14
+	github.com/mattn/go-isatty v0.0.16
 	github.com/mitchellh/mapstructure v1.4.1
 	github.com/nautilus/gateway v0.1.16
 	github.com/nautilus/graphql v0.0.16
@@ -62,7 +62,7 @@ require (
 	github.com/spf13/cobra v1.2.1
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.8.1
-	github.com/stretchr/testify v1.7.0
+	github.com/stretchr/testify v1.8.3
 	github.com/theupdateframework/notary v0.7.0 // indirect
 	github.com/valyala/fastjson v1.6.3
 	github.com/vektah/gqlparser/v2 v2.1.0
@@ -72,12 +72,12 @@ require (
 	github.com/zalando/go-keyring v0.1.1
 	github.com/zclconf/go-cty v1.8.1
 	go.uber.org/zap v1.18.1
-	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
-	google.golang.org/api v0.44.0
-	google.golang.org/grpc v1.38.0
-	google.golang.org/protobuf v1.27.1
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
+	golang.org/x/oauth2 v0.7.0
+	golang.org/x/sync v0.1.0
+	google.golang.org/api v0.114.0
+	google.golang.org/grpc v1.56.3
+	google.golang.org/protobuf v1.30.0
+	gopkg.in/yaml.v3 v3.0.1
 	gotest.tools v2.2.0+incompatible
 	helm.sh/helm/v3 v3.6.3
 	k8s.io/api v0.21.5
