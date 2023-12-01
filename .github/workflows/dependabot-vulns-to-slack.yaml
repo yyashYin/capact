@@ -17,6 +17,7 @@ jobs:
         uses: kunalnagarco/action-cve@v1.7.42
         with:
           token: ${{ secrets.GH_TOKEN }}
+          slack_webhook: ${{ secrets.SLACK_PRIV_DEV_TEAM_WEBHOOK }}
           
       - name: print vlun counts
         run: echo "${{ toJson(steps.vulnerabilities.outputs) }}" | jq
