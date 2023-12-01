@@ -1,0 +1,24 @@
+name: 'Dependabot vulnerabilities notification to Slack'
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'  #
+
+jobs:
+  Notify-Vulnerabilities:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Scan for Vulnerabilities
+        id: vulnerabilities
+        uses: kunalnagarco/action-cve@v1.7.42
+        with:
+          token: "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"
+
+      - name: Notify Vulnerabilities
+        if: steps.vulnerabilities.outputs.vulnerabilities > 0
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text": "Vulnerabilities found!", "attachments": [{"text": "${{ toJson(steps.vulnerabilities.outputs.vulnerabilities)}}"}]}' https://hooks.slack.com/services/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
