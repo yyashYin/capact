@@ -16,7 +16,7 @@ jobs:
         id: vulnerabilities
         uses: kunalnagarco/action-cve@v1.7.42
         with:
-          token: "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"
+          token: "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"
 
       - name: Notify Vulnerabilities
         if: steps.vulnerabilities.outputs.vulnerabilities > 0
