@@ -16,7 +16,7 @@ jobs:
         id: vulnerabilities
         uses: kunalnagarco/action-cve@v1.7.42
         with:
-          token: "${{ secrets.RELEASE_GITHUB_TOKEN }}"
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Notify Vulnerabilities
         if: steps.vulnerabilities.outputs.vulnerabilities > 0
