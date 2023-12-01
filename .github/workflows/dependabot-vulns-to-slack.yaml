@@ -16,9 +16,9 @@ jobs:
         id: vulnerabilities
         uses: kunalnagarco/action-cve@v1.7.42
         with:
-          token: "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"
+          token: "${{ secrets.RELEASE_GITHUB_TOKEN }}"
 
       - name: Notify Vulnerabilities
         if: steps.vulnerabilities.outputs.vulnerabilities > 0
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text": "Vulnerabilities found!", "attachments": [{"text": "${{ toJson(steps.vulnerabilities.outputs.vulnerabilities)}}"}]}' https://hooks.slack.com/services/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
+          curl -X POST -H 'Content-type: application/json' --data '{"text": "Vulnerabilities found!", "attachments": [{"text": "${{ toJson(steps.vulnerabilities.outputs.vulnerabilities)}}"}]}' ${{ secrets.SLACK_PRIV_DEV_TEAM_WEBHOOK }}
