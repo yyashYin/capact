@@ -19,7 +19,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           
       - name: print vlun counts
-        run: echo "${{ steps.vulnerabilities.outputs }}"
+        run: echo "${{ toJson(steps.vulnerabilities.outputs) }}" | jq
 
       - name: Notify Vulnerabilities
         if: steps.vulnerabilities.outputs.vulnerabilities > 0
